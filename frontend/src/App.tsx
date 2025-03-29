@@ -68,7 +68,7 @@ function App() {
         
         <TextField
           fullWidth
-          label="輸入中文字"
+          label="請輸入一個中文字查詢影片，目前共收錄 1421 個字"
           variant="outlined"
           value={searchText}
           onChange={(e) => handleSearch(e.target.value)}
