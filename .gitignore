@@ -11,7 +11,8 @@ __pycache__/
 
 # 設定檔 (如果包含敏感資訊)
 .env
-config/config.yaml # 如果你的 API Key 寫在裡面
+# 如果你的 API Key 寫在裡面
+config/config.yaml
 
 # 執行結果 (可選)
 classification_results.json
@@ -20,4 +21,3 @@ classification_results.json
 .vscode/
 .idea/
 *.swp
-
