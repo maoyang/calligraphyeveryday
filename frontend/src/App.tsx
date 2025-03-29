@@ -6,7 +6,8 @@ import {
   Typography, 
   Paper,
   CircularProgress,
-  Alert
+  Alert,
+  Link
 } from '@mui/material'
 import { supabase } from './lib/supabase'
 
@@ -71,8 +72,40 @@ function App() {
           variant="outlined"
           value={searchText}
           onChange={(e) => handleSearch(e.target.value)}
-          sx={{ mb: 4 }}
+          sx={{ mb: 2 }}
         />
+
+        <Box sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>
+          <Link
+            href="https://www.facebook.com/groups/1396609563919682"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{ 
+              textDecoration: 'none', 
+              color: 'primary.main',
+              mr: 2,
+              '&:hover': {
+                textDecoration: 'underline'
+              }
+            }}
+          >
+            陳國昭老師創作專欄
+          </Link>
+          <Link
+            href="https://readforwriting.art/"
+            target="_blank"
+            rel="noopener noreferrer"
+            sx={{ 
+              textDecoration: 'none', 
+              color: 'primary.main',
+              '&:hover': {
+                textDecoration: 'underline'
+              }
+            }}
+          >
+            關於開發者
+          </Link>
+        </Box>
 
         {error && (
           <Alert severity="error" sx={{ mb: 2 }}>
