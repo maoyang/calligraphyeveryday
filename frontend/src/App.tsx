@@ -62,7 +62,7 @@ function App() {
     <Container maxWidth="md">
       <Box sx={{ my: 4 }}>
         <Typography variant="h4" component="h1" gutterBottom align="center">
-          陳國昭老師趙孟頫每日一字教學
+          陳國昭老師趙孟頫每日一字教學影片查詢
         </Typography>
         
         <TextField
