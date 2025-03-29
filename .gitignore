@@ -1,0 +1,23 @@
+# 虛擬環境
+.venv/
+venv/
+*/.venv/
+*/venv/
+
+# Python 快取
+__pycache__/
+*.py[cod]
+*$py.class
+
+# 設定檔 (如果包含敏感資訊)
+.env
+# 如果你的 API Key 寫在裡面
+config/config.yaml
+
+# 執行結果 (可選)
+classification_results.json
+
+# IDE/編輯器設定檔
+.vscode/
+.idea/
+*.swp
