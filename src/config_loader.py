@@ -1,9 +1,19 @@
 import os
-from dotenv import load_dotenv
+import re
 
 def load_config():
     """載入 .env 檔案中的環境變數"""
-    load_dotenv() # 會自動尋找專案根目錄下的 .env 檔案
+    # 直接讀取 .env 檔案
+    env_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.env')
+    
+    if os.path.exists(env_path):
+        with open(env_path, 'r', encoding='utf-8') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#'):
+                    key, value = line.split('=', 1)
+                    os.environ[key.strip()] = value.strip().strip('"\'')
+    
     api_key = os.getenv("YOUTUBE_API_KEY")
     channel_id = os.getenv("TARGET_CHANNEL_ID")
 
