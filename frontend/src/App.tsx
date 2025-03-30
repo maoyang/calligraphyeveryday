@@ -351,20 +351,21 @@ function App() {
         </Typography>
         
         <Box sx={{ mb: 2 }}>
-          <ToggleButtonGroup
-            value={searchMode}
-            exclusive
-            onChange={handleSearchModeChange}
-            aria-label="搜尋模式"
-            sx={{ mb: 2 }}
-          >
-            <ToggleButton value="character" aria-label="字元搜尋">
-              字元搜尋
-            </ToggleButton>
-            <ToggleButton value="radical" aria-label="部首搜尋">
-              部首搜尋
-            </ToggleButton>
-          </ToggleButtonGroup>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+            <ToggleButtonGroup
+              value={searchMode}
+              exclusive
+              onChange={handleSearchModeChange}
+              aria-label="搜尋模式"
+            >
+              <ToggleButton value="character" aria-label="字元搜尋">
+                字元搜尋
+              </ToggleButton>
+              <ToggleButton value="radical" aria-label="部首搜尋">
+                部首搜尋
+              </ToggleButton>
+            </ToggleButtonGroup>
+          </Box>
 
           {searchMode === 'character' ? (
             <TextField
@@ -375,16 +376,26 @@ function App() {
               onChange={(e) => handleSearch(e.target.value)}
             />
           ) : (
-            <Box>
+            <Box sx={{ textAlign: 'center' }}>
               <Typography variant="subtitle1" gutterBottom>
                 請選擇部首筆劃數：
               </Typography>
-              <Grid container spacing={1} sx={{ mb: 2 }}>
+              <Grid 
+                container 
+                spacing={1} 
+                sx={{ 
+                  mb: 2,
+                  justifyContent: 'center',
+                  maxWidth: '100%',
+                  margin: '0 auto'
+                }}
+              >
                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17].map((count) => (
                   <Grid item key={count}>
                     <Button
                       variant={strokeCount === count ? "contained" : "outlined"}
                       onClick={() => handleStrokeCountChange(count)}
+                      sx={{ minWidth: '48px' }}
                     >
                       {count}劃
                     </Button>
@@ -397,12 +408,21 @@ function App() {
                   <Typography variant="subtitle1" gutterBottom>
                     請選擇部首：
                   </Typography>
-                  <Grid container spacing={1}>
+                  <Grid 
+                    container 
+                    spacing={1} 
+                    sx={{ 
+                      justifyContent: 'center',
+                      maxWidth: '100%',
+                      margin: '0 auto'
+                    }}
+                  >
                     {getRadicalsByStrokeCount(strokeCount).map((radical) => (
                       <Grid item key={radical.number}>
                         <Button
                           variant={selectedRadical?.number === radical.number ? "contained" : "outlined"}
                           onClick={() => handleRadicalSelect(radical)}
+                          sx={{ minWidth: '48px' }}
                         >
                           {radical.char}
                         </Button>
@@ -463,33 +483,41 @@ function App() {
               <Alert severity="info">
                 沒有找到符合的字
               </Alert>
-            ) : (
-              characters.map((char) => (
-                <Paper key={char.id} sx={{ p: 2, mb: 2 }}>
-                  <Typography variant="h5" gutterBottom>
-                    {char.character}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" gutterBottom>
-                    章節：{char.chapter} | 序號：{char.serial} | 部首：{char.radical || '無'}
-                  </Typography>
-                  <Box sx={{ mt: 2, position: 'relative', paddingTop: '56.25%' }}>
-                    <iframe
-                      src={`https://www.youtube.com/embed/${char.video_url.split('v=')[1]}`}
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        border: 0
-                      }}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      allowFullScreen
-                    />
-                  </Box>
-                </Paper>
-              ))
-            )}
+            ) : characters.length > 0 ? (
+              <>
+                <Alert severity="success" sx={{ mb: 2 }}>
+                  {searchMode === 'character' 
+                    ? `找到 ${characters.length} 個包含「${searchText}」的字`
+                    : `找到 ${characters.length} 個部首為「${selectedRadical?.char}」的字`
+                  }
+                </Alert>
+                {characters.map((char) => (
+                  <Paper key={char.id} sx={{ p: 2, mb: 2 }}>
+                    <Typography variant="h5" gutterBottom>
+                      {char.character}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" gutterBottom>
+                      章節：{char.chapter} | 序號：{char.serial} | 部首：{char.radical || '無'}
+                    </Typography>
+                    <Box sx={{ mt: 2, position: 'relative', paddingTop: '56.25%' }}>
+                      <iframe
+                        src={`https://www.youtube.com/embed/${char.video_url.split('v=')[1]}`}
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: '100%',
+                          border: 0
+                        }}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </Box>
+                  </Paper>
+                ))}
+              </>
+            ) : null}
           </Box>
         )}
       </Box>
