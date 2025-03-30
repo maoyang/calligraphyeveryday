@@ -11,23 +11,34 @@ create table if not exists public.characters (
 -- 設置 RLS 策略
 alter table public.characters enable row level security;
 
-create policy "Enable read access for all users" on public.characters
-    for select
-    to authenticated, anon
-    using (true);
+do $$ 
+begin
+    if not exists (select 1 from pg_policies where tablename = 'characters' and policyname = 'Enable read access for all users') then
+        create policy "Enable read access for all users" on public.characters
+            for select
+            to authenticated, anon
+            using (true);
+    end if;
 
-create policy "Enable insert for authenticated users only" on public.characters
-    for insert
-    to authenticated
-    with check (true);
+    if not exists (select 1 from pg_policies where tablename = 'characters' and policyname = 'Enable insert for authenticated users only') then
+        create policy "Enable insert for authenticated users only" on public.characters
+            for insert
+            to authenticated
+            with check (true);
+    end if;
 
-create policy "Enable update for authenticated users only" on public.characters
-    for update
-    to authenticated
-    using (true)
-    with check (true);
+    if not exists (select 1 from pg_policies where tablename = 'characters' and policyname = 'Enable update for authenticated users only') then
+        create policy "Enable update for authenticated users only" on public.characters
+            for update
+            to authenticated
+            using (true)
+            with check (true);
+    end if;
 
-create policy "Enable delete for authenticated users only" on public.characters
-    for delete
-    to authenticated
-    using (true); 
+    if not exists (select 1 from pg_policies where tablename = 'characters' and policyname = 'Enable delete for authenticated users only') then
+        create policy "Enable delete for authenticated users only" on public.characters
+            for delete
+            to authenticated
+            using (true);
+    end if;
+end $$; 
